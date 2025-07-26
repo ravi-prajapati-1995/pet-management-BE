@@ -1,0 +1,71 @@
+package com.pet.management.repository.impl;
+
+import com.pet.management.dto.PetDetailsDTO;
+import com.pet.management.model.Pet;
+import com.pet.management.repository.PetRepository;
+import jakarta.ejb.Singleton;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Singleton
+@AllArgsConstructor
+@NoArgsConstructor
+public class PetRepositoryImpl implements PetRepository {
+    @PersistenceContext
+    private EntityManager em;
+
+    @Override
+    public Pet findById(int id) {
+        return em.find(Pet.class, id);
+    }
+
+    @Override
+    public List<PetDetailsDTO> findAll() {
+        String jpql = getSelectAllPets();
+        TypedQuery<PetDetailsDTO> query = em.createQuery(jpql, PetDetailsDTO.class);
+        return query.getResultList();
+    }
+
+    private static String getSelectAllPets() {
+        return """
+                    SELECT new com.pet.management.dto.PetDetailsDTO(
+                        p.id, p.name, p.age,
+                        o.id, o.name, o.phoneNumber,
+                        (SELECT MAX(v.vaccinationTime) FROM Vaccine v WHERE v.pet.id = p.id)
+                    )
+                    FROM Pet p
+                    JOIN p.owner o
+                """;
+    }
+
+
+    @Override
+    public List<PetDetailsDTO> findByName(String name) {
+        String jpql = getSelectAllPets() + "WHERE LOWER(p.name) LIKE LOWER(:name)";
+        TypedQuery<PetDetailsDTO> query = em.createQuery(jpql, PetDetailsDTO.class);
+        query.setParameter("name", "%" + name.trim().toLowerCase() + "%");
+        return query.getResultList();
+    }
+
+    @Override
+    public void save(Pet pet) {
+        if (pet.getId() == 0) {
+            em.persist(pet);
+        } else {
+            em.merge(pet);
+        }
+    }
+
+    @Override
+    public void delete(int id) {
+        Pet pet = em.find(Pet.class, id);
+        if (pet != null) {
+            em.remove(pet);
+        }
+    }
+}

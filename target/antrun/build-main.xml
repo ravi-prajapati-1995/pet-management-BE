@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="maven-antrun-" default="main">
+  <target name="main">
+    <copy file="C:\Users\Ravi Prajapati\Desktop\pet-management-system\target/pet-management-system.war" tofile="C:\Users\Ravi Prajapati\Desktop/wildfly-36.0.1.Final\standalone\deployments\pet-management-system.war" />
+  </target>
+</project>
