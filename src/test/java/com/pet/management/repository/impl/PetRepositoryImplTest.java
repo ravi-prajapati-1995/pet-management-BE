@@ -8,8 +8,6 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @Disabled
@@ -49,10 +47,10 @@ class PetRepositoryImplTest {
     void findById() {
         // given
         Pet pet = new Pet("Buddy", 4);
+        repo.save(pet);
 
         // when
-        repo.save(pet);
-        Pet found = repo.findById(pet.getId());
+        Pet found = repo.findById(pet.getId()).get();
 
         // then
         assertNotNull(found);
@@ -65,18 +63,18 @@ class PetRepositoryImplTest {
         // given
         Pet pet = new Pet("Max", 2);
         repo.save(pet);
-
-        // when
-        pet = repo.findById(pet.getId());
+        pet = repo.findById(pet.getId()).get();
         Pet updatedPet = pet.toBuilder()
                 .name("Maximus")
                 .age(3)
                 .build();
 
+        // when
         repo.save(updatedPet);
-        Pet updated = repo.findById(pet.getId());
+
 
         // then
+        Pet updated = repo.findById(pet.getId()).get();
         assertEquals("Maximus", updated.getName());
         assertEquals(3, updated.getAge());
     }
@@ -134,7 +132,7 @@ class PetRepositoryImplTest {
         repo.save(pet);
 
         // then
-        Pet found = repo.findById(pet.getId());
+        Pet found = repo.findById(pet.getId()).get();
         assertNotNull(found);
         assertEquals("Buddy", found.getName());
         assertEquals(4, found.getAge());
@@ -148,7 +146,7 @@ class PetRepositoryImplTest {
 
         // when
         repo.delete(pet.getId());
-        Pet deleted = repo.findById(pet.getId());
+        Pet deleted = repo.findById(pet.getId()).get();
 
         // then
         assertNull(deleted);

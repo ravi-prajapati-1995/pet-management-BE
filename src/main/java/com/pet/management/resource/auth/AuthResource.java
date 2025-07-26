@@ -1,6 +1,5 @@
 package com.pet.management.resource.auth;
 
-import com.pet.management.auth.JwtUtil;
 import com.pet.management.dto.auth.LoginRequest;
 import com.pet.management.service.AuthService;
 import jakarta.ejb.EJB;
@@ -14,12 +13,13 @@ import jakarta.ws.rs.core.Response;
 import java.util.Map;
 
 import static com.pet.management.auth.JwtUtil.generateToken;
+import static com.pet.management.config.AppConstants.PET_APP_V1;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
-import static jakarta.ws.rs.core.Response.Status.*;
+import static jakarta.ws.rs.core.Response.Status.UNAUTHORIZED;
 
 @Path("/auth")
 @Produces(APPLICATION_JSON)
-@Consumes(APPLICATION_JSON)
+@Consumes(PET_APP_V1)
 public class AuthResource {
     @EJB
     private AuthService authService;

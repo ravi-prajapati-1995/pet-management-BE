@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 @Singleton
 @AllArgsConstructor
@@ -27,8 +28,8 @@ public class OwnerRepositoryImpl implements OwnerRepository {
         }
     }
 
-    public Owner findById(int id) {
-        return em.find(Owner.class, id);
+    public Optional<Owner> findById(int id) {
+        return Optional.ofNullable(em.find(Owner.class, id));
     }
 
     public List<Owner> findAll() {
@@ -37,10 +38,8 @@ public class OwnerRepositoryImpl implements OwnerRepository {
     }
 
     public void delete(int id) {
-        Owner owner = findById(id);
-        if (owner != null) {
-            em.remove(owner);
-        }
+        final var ownerOptional = findById(id);
+        ownerOptional.ifPresent(owner -> em.remove(owner));
     }
 
     public List<Owner> findByName(String name) {

@@ -11,6 +11,9 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
+
+import static java.util.Optional.ofNullable;
 
 @Singleton
 @AllArgsConstructor
@@ -20,8 +23,9 @@ public class PetRepositoryImpl implements PetRepository {
     private EntityManager em;
 
     @Override
-    public Pet findById(int id) {
-        return em.find(Pet.class, id);
+    public Optional<Pet> findById(int id) {
+        Pet pet = em.find(Pet.class, id);
+        return ofNullable(pet);
     }
 
     @Override
