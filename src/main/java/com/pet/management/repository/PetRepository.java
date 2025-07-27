@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PetRepository {
-    Optional<Pet> findById(int id);
+    Optional<Pet> findById(Long id);
     List<PetDetailsDTO> findAll();
     List<PetDetailsDTO> findByName(String name);
     void save(Pet pet);
-    void delete(int id);
+    void delete(Long id);
+    List<PetDetailsDTO> findByIds(List<Long> petIds);
 }

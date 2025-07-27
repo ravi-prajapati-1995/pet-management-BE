@@ -2,7 +2,7 @@ package com.pet.management.repository.impl;
 
 import com.pet.management.model.Owner;
 import com.pet.management.repository.OwnerRepository;
-import jakarta.ejb.Singleton;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -12,23 +12,23 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.Optional;
 
-@Singleton
+@Stateless
 @AllArgsConstructor
 @NoArgsConstructor
-public class OwnerRepositoryImpl implements OwnerRepository {
+public  class OwnerRepositoryImpl implements OwnerRepository {
 
     @PersistenceContext
     public EntityManager em;
 
     public void save(Owner owner) {
-        if (owner.getId() == 0) {
+        if (owner.getId() == null) {
             em.persist(owner);
         } else {
             em.merge(owner);
         }
     }
 
-    public Optional<Owner> findById(int id) {
+    public Optional<Owner> findById(Long id) {
         return Optional.ofNullable(em.find(Owner.class, id));
     }
 
@@ -37,7 +37,7 @@ public class OwnerRepositoryImpl implements OwnerRepository {
         return query.getResultList();
     }
 
-    public void delete(int id) {
+    public void delete(Long  id) {
         final var ownerOptional = findById(id);
         ownerOptional.ifPresent(owner -> em.remove(owner));
     }

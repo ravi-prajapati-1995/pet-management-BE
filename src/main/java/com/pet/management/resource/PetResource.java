@@ -38,7 +38,7 @@ public class PetResource {
 
     @PATCH
     @Path("/{id}")
-    public Response updatePet(@PathParam("id") Integer id, PetUpdateDto dto) {
+    public Response updatePet(@PathParam("id") Long id, PetUpdateDto dto) {
         try {
             petService.updatePet(id, dto);
             return Response.noContent().build();

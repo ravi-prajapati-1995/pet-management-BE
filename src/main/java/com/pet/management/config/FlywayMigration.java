@@ -1,10 +1,9 @@
 package com.pet.management.config;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
+import jakarta.ejb.Stateless;
 import jakarta.ejb.TransactionManagement;
-import jakarta.ejb.TransactionManagementType;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
 import org.flywaydb.core.Flyway;
@@ -15,7 +14,7 @@ import javax.sql.DataSource;
 
 import static jakarta.ejb.TransactionManagementType.BEAN;
 
-@Singleton
+@Stateless
 @Startup
 @TransactionManagement(value= BEAN)
 public class FlywayMigration {

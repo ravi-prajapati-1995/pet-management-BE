@@ -8,6 +8,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @Disabled
@@ -150,5 +152,22 @@ class PetRepositoryImplTest {
 
         // then
         assertNull(deleted);
+    }
+
+    @Test
+    void findByIds() {
+        // given
+        Owner owner = getOwner();
+        Pet pet1 = Pet.builder().name("Charlie").age(5).owner(owner).build();
+        Pet pet2 = Pet.builder().name("Luna").age(3).owner(owner).build();
+        repo.save(pet1);
+        repo.save(pet2);
+
+        // when
+        final var petDetailsDTOS = repo.findByIds(List.of(pet1.getId(), pet2.getId()));
+
+        // then
+        assertEquals(2, petDetailsDTOS.size());
+
     }
 }

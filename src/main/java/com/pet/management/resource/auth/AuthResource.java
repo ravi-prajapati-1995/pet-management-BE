@@ -42,6 +42,6 @@ public class AuthResource {
             return Response.status(UNAUTHORIZED)
                     .entity(Map.of("error", "Invalid credentials"))
                     .build();
-        }
+        } 
     }
 }

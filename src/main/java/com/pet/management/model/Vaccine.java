@@ -1,5 +1,6 @@
 package com.pet.management.model;
 
+import com.pet.management.dto.UpdateVaccineDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,12 +16,24 @@ import java.time.LocalDateTime;
 public class Vaccine {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
+
     @Column(name = "vaccine_name")
     private String vaccineName;
 
     @Column(name = "vaccination_time")
     private LocalDateTime vaccinationTime;
+
     @ManyToOne
     private Pet pet;
+
+    public Vaccine(final String vaccineName, final LocalDateTime vaccinationTime, final Pet pet) {
+        this.vaccineName = vaccineName;
+        this.vaccinationTime = vaccinationTime;
+        this.pet = pet;
+    }
+
+    public static Vaccine from(final UpdateVaccineDTO dto, final Pet pet) {
+        return new Vaccine(dto.getName(), dto.getVaccineTime(), pet);
+    }
 }

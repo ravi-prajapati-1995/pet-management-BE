@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Builder
 public class OwnerDTO {
-    private int id;
+    private Long id;
     private String name;
     private String telephone;
 

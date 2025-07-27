@@ -3,7 +3,7 @@ package com.pet.management.repository.impl;
 import com.pet.management.dto.PetDetailsDTO;
 import com.pet.management.model.Pet;
 import com.pet.management.repository.PetRepository;
-import jakarta.ejb.Singleton;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
 
-@Singleton
+@Stateless
 @AllArgsConstructor
 @NoArgsConstructor
 public class PetRepositoryImpl implements PetRepository {
@@ -23,7 +23,7 @@ public class PetRepositoryImpl implements PetRepository {
     private EntityManager em;
 
     @Override
-    public Optional<Pet> findById(int id) {
+    public Optional<Pet> findById(Long id) {
         Pet pet = em.find(Pet.class, id);
         return ofNullable(pet);
     }
@@ -50,7 +50,7 @@ public class PetRepositoryImpl implements PetRepository {
 
     @Override
     public List<PetDetailsDTO> findByName(String name) {
-        String jpql = getSelectAllPets() + "WHERE LOWER(p.name) LIKE LOWER(:name)";
+        String jpql = getSelectAllPets() + " WHERE LOWER(p.name) LIKE LOWER(:name)";
         TypedQuery<PetDetailsDTO> query = em.createQuery(jpql, PetDetailsDTO.class);
         query.setParameter("name", "%" + name.trim().toLowerCase() + "%");
         return query.getResultList();
@@ -58,7 +58,7 @@ public class PetRepositoryImpl implements PetRepository {
 
     @Override
     public void save(Pet pet) {
-        if (pet.getId() == 0) {
+        if (pet.getId() == null || pet.getId() == 0) {
             em.persist(pet);
         } else {
             em.merge(pet);
@@ -66,10 +66,18 @@ public class PetRepositoryImpl implements PetRepository {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Long id) {
         Pet pet = em.find(Pet.class, id);
         if (pet != null) {
             em.remove(pet);
         }
+    }
+
+    @Override
+    public List<PetDetailsDTO> findByIds(final List<Long> petIds) {
+        String jpql = getSelectAllPets() + " WHERE p.id IN :ids";
+        TypedQuery<PetDetailsDTO> query = em.createQuery(jpql, PetDetailsDTO.class);
+        query.setParameter("ids", petIds);
+        return query.getResultList().stream().distinct().toList();
     }
 }

@@ -1,5 +1,6 @@
 package com.pet.management.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.pet.management.model.Vaccine;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,16 +14,18 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 public class VaccineDTO {
-    private int id;
-    private String vaccineName;
-    private LocalDateTime vaccinationTime;
+    private Long id;
+    private String name;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime time;
 
     public static VaccineDTO from(Vaccine vaccine) {
         if (vaccine == null) return null;
         return VaccineDTO.builder()
                 .id(vaccine.getId())
-                .vaccineName(vaccine.getVaccineName())
-                .vaccinationTime(vaccine.getVaccinationTime())
+                .name(vaccine.getVaccineName())
+                .time(vaccine.getVaccinationTime())
                 .build();
     }
 }

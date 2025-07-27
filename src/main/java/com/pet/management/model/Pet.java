@@ -15,12 +15,13 @@ import java.util.List;
 public class Pet {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     private String name;
     private int age;
     @ManyToOne
     private Owner owner;
+
     @OneToMany(mappedBy="pet")
     private List<Vaccine> vaccines;
 

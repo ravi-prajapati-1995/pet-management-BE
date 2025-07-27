@@ -1,11 +1,9 @@
 package com.pet.management.service;
 
-import com.pet.management.model.auth.User;
 import com.pet.management.repository.UserRepository;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import lombok.extern.slf4j.Slf4j;
-import org.mindrot.jbcrypt.BCrypt;
 
 import static org.mindrot.jbcrypt.BCrypt.checkpw;
 
@@ -17,10 +15,7 @@ public class AuthService {
 
     public boolean authenticate(String username, String password) {
         log.debug("login with username: {} and password: {}", username, password);
-
-        User user = userRepository.findByUsername(username);
-        if (user == null) return false;
-
-        return checkpw(password, user.getPassword());
+        final var userOptional = userRepository.findByUsername(username);
+        return userOptional.filter(user -> checkpw(password, user.getPassword())).isPresent();
     }
 }

@@ -4,16 +4,21 @@ import com.pet.management.dto.PetDetailsDTO;
 import com.pet.management.dto.update.PetUpdateDto;
 import com.pet.management.model.Pet;
 import com.pet.management.repository.PetRepository;
-import jakarta.ejb.Singleton;
+import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Optional;
 
-@Singleton
+@Stateless
+@Slf4j
 public class PetService {
     @Inject
     private PetRepository petRepository;
+    @Inject
+    private VaccineService vaccineService;
 
     public List<PetDetailsDTO> getAllPets() {
         return petRepository.findAll();
@@ -23,7 +28,7 @@ public class PetService {
         return petRepository.findByName(name);
     }
 
-    public void updatePet(Integer id, PetUpdateDto petUpdateDto) {
+    public void updatePet(Long id, PetUpdateDto petUpdateDto) {
         Pet pet = petRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Pet not found"));
 
@@ -38,5 +43,15 @@ public class PetService {
 
     public void savePet(Pet pet) {
         petRepository.save(pet);
+    }
+
+    public Optional<Pet> findById(final Long id) {
+        return petRepository.findById(id);
+    }
+
+    public List<PetDetailsDTO> getVaccinePendingPets() {
+        final var vaccinePendingPetIds = vaccineService.getVaccinePendingPetIds();
+        log.debug("Getting pending vaccine pets with id: {}", vaccinePendingPetIds);
+        return petRepository.findByIds(vaccinePendingPetIds);
     }
 }

@@ -23,7 +23,7 @@ public class OwnerResource {
 
     @PATCH
     @Path("/{id}")
-    public Response updateOwner(@PathParam("id") Integer id, OwnerUpdateDTO dto) {
+    public Response updateOwner(@PathParam("id") Long id, OwnerUpdateDTO dto) {
         try {
             ownerService.updateOwnerDetails(id, dto);
             return Response.noContent().build();

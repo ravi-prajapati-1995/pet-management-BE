@@ -2,6 +2,8 @@ package com.pet.management.repository;
 
 import com.pet.management.model.auth.User;
 
+import java.util.Optional;
+
 public interface UserRepository {
-    public User findByUsername(String username);
+    Optional<User> findByUsername(String username);
 }

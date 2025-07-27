@@ -1,28 +1,25 @@
 package com.pet.management.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Builder
+@EqualsAndHashCode
 public class PetDetailsDTO {
-    private int id;
+    private Long id;
     private String name;
     private int age;
-    private int ownerId;
+    private Long ownerId;
     private String owner;
     private String phoneNumber;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime lastVaccine;
 
 

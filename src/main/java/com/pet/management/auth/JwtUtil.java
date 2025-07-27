@@ -1,20 +1,24 @@
 package com.pet.management.auth;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.ejb.Stateless;
 
 import java.util.Date;
 
+import static io.jsonwebtoken.SignatureAlgorithm.HS256;
+
+@Stateless
 public class JwtUtil {
-    private static final String SECRET = "e1iZ9jvU3JifOT0L5UZL7v+ZYQRcjKKbXdwu1t4CMbc=";
+    private static final String SECRET = System.getProperty("app.jwt.secret");
+    private static final Integer SESSION_TIMEOUT = Integer.parseInt(System.getProperty("app.session.timeout.seconds"));
 
     public static String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 3600000))
-                .signWith(Keys.hmacShaKeyFor(SECRET.getBytes()), SignatureAlgorithm.HS256)
+                .setExpiration(new Date(System.currentTimeMillis() + (SESSION_TIMEOUT * 1000)))
+                .signWith(Keys.hmacShaKeyFor(SECRET.getBytes()), HS256)
                 .compact();
     }
 

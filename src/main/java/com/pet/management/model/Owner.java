@@ -17,7 +17,7 @@ import java.util.List;
 public class Owner {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
     private String name;
     @Column(name = "phone_number")
     private String phoneNumber;
