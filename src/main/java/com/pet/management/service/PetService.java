@@ -51,7 +51,6 @@ public class PetService {
 
     public List<PetDetailsDTO> getVaccinePendingPets() {
         final var vaccinePendingPetIds = vaccineService.getVaccinePendingPetIds();
-        log.debug("Getting pending vaccine pets with id: {}", vaccinePendingPetIds);
         return petRepository.findByIds(vaccinePendingPetIds);
     }
 }

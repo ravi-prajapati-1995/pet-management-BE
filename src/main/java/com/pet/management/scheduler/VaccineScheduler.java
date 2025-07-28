@@ -21,7 +21,6 @@ public class VaccineScheduler {
     public void perMinuteTask() {
         final var vaccinePendingPets = petService.getVaccinePendingPets();
         final var jsonString = asJsonString(vaccinePendingPets);
-        log.debug("Data about to send: {}", jsonString);
         vaccineMessageProducer.sendMessage(jsonString);
     }
 
