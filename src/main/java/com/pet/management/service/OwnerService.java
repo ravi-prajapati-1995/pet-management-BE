@@ -2,11 +2,11 @@ package com.pet.management.service;
 
 import com.pet.management.dto.update.OwnerUpdateDTO;
 import com.pet.management.repository.OwnerRepository;
-import jakarta.ejb.Stateless;
+import jakarta.ejb.Singleton;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.NotFoundException;
 
-@Stateless
+@Singleton
 public class OwnerService {
     @Inject
     private OwnerRepository ownerRepository;

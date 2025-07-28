@@ -2,16 +2,17 @@ package com.pet.management.repository.impl;
 
 import com.pet.management.model.Vaccine;
 import com.pet.management.repository.VaccineRepository;
-import jakarta.ejb.Stateless;
+import jakarta.ejb.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-@Stateless
+import static java.time.LocalDateTime.now;
+
+@Singleton
 @AllArgsConstructor
 @NoArgsConstructor
 public class VaccineRepositoryImpl implements VaccineRepository {
@@ -48,23 +49,29 @@ public class VaccineRepositoryImpl implements VaccineRepository {
     @Override
     public List<Long> getPetIdsWhereVaccineExpire() {
         final var resultList = em.createNativeQuery(getQueryToGeRecentVaccines())
-                .setParameter("oneHourAgo", LocalDateTime.now().minusHours(1))
+                .setParameter("oneHourAgo", now().minusHours(1))
                 .getResultList();
         return resultList.stream()
                 .map(o -> ((Number) o).longValue())
                 .toList();
     }
 
+    @Override
+    public List<Vaccine> findAll() {
+        return em.createQuery("SELECT u FROM Vaccine u", Vaccine.class)
+                .getResultList();
+    }
+
     private static String getQueryToGeRecentVaccines() {
         return """
-                    SELECT DISTINCT(v.pet_id)
+                    SELECT v.pet_id
                     FROM vaccine v
                     INNER JOIN (
                         SELECT pet_id, MAX(vaccination_time) AS max_time
                         FROM vaccine
                         GROUP BY pet_id
                     ) latest ON v.pet_id = latest.pet_id AND v.vaccination_time = latest.max_time
-                    WHERE v.vaccination_time < :oneHourAgo
+                    WHERE latest.max_time < :oneHourAgo
                 """;
     }
 }

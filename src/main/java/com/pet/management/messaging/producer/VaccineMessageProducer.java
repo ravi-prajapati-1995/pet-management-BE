@@ -1,13 +1,15 @@
 package com.pet.management.messaging.producer;
 
 import jakarta.annotation.Resource;
-import jakarta.ejb.Stateless;
+import jakarta.ejb.Singleton;
 import jakarta.jms.ConnectionFactory;
 import jakarta.jms.JMSContext;
 import jakarta.jms.JMSException;
 import jakarta.jms.Queue;
+import lombok.extern.slf4j.Slf4j;
 
-@Stateless
+@Slf4j
+@Singleton
 public class VaccineMessageProducer {
     @Resource(lookup = "java:/jms/queue/vaccineQueue")
     private Queue queue;

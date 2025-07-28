@@ -2,7 +2,7 @@ package com.pet.management.repository.impl;
 
 import com.pet.management.model.Owner;
 import com.pet.management.repository.OwnerRepository;
-import jakarta.ejb.Stateless;
+import jakarta.ejb.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.Optional;
 
-@Stateless
+@Singleton
 @AllArgsConstructor
 @NoArgsConstructor
 public  class OwnerRepositoryImpl implements OwnerRepository {

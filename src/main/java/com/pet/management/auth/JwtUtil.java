@@ -2,13 +2,13 @@ package com.pet.management.auth;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import jakarta.ejb.Stateless;
+import jakarta.ejb.Singleton;
 
 import java.util.Date;
 
 import static io.jsonwebtoken.SignatureAlgorithm.HS256;
 
-@Stateless
+@Singleton
 public class JwtUtil {
     private static final String SECRET = System.getProperty("app.jwt.secret");
     private static final Integer SESSION_TIMEOUT = Integer.parseInt(System.getProperty("app.session.timeout.seconds"));

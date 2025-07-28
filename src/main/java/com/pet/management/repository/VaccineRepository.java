@@ -11,4 +11,5 @@ public interface VaccineRepository {
 
     int deleteByPetId(Long petId);
     List<Long> getPetIdsWhereVaccineExpire();
+    List<Vaccine> findAll();
 }

@@ -1,10 +1,11 @@
 package com.pet.management.dao;
 
 import com.pet.management.model.auth.User;
-import jakarta.ejb.Stateless;
-import jakarta.persistence.*;
+import jakarta.ejb.Singleton;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
-@Stateless
+@Singleton
 public class UserDao {
     @PersistenceContext(unitName = "MyPU")
     private EntityManager em;

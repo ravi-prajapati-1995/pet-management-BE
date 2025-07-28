@@ -3,7 +3,7 @@ package com.pet.management.repository.impl;
 import com.pet.management.dto.PetDetailsDTO;
 import com.pet.management.model.Pet;
 import com.pet.management.repository.PetRepository;
-import jakarta.ejb.Stateless;
+import jakarta.ejb.Singleton;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
 
-@Stateless
+@Singleton
 @AllArgsConstructor
 @NoArgsConstructor
 public class PetRepositoryImpl implements PetRepository {
@@ -78,6 +78,6 @@ public class PetRepositoryImpl implements PetRepository {
         String jpql = getSelectAllPets() + " WHERE p.id IN :ids";
         TypedQuery<PetDetailsDTO> query = em.createQuery(jpql, PetDetailsDTO.class);
         query.setParameter("ids", petIds);
-        return query.getResultList().stream().distinct().toList();
+        return query.getResultList();
     }
 }

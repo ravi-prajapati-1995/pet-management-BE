@@ -23,10 +23,6 @@ public class VaccineResource {
     @Inject
     private VaccineService vaccineService;
 
-    @GET
-    public Response getVaccines() {
-        return null;
-    }
 
     @GET
     public Response getVaccine(@PathParam("id") Long petId) {

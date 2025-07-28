@@ -2,6 +2,7 @@ package com.pet.management.messaging.listener;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.pet.management.dto.PetDetailsDTO;
+import com.pet.management.utils.JsonUtil;
 import jakarta.ejb.ActivationConfigProperty;
 import jakarta.ejb.MessageDriven;
 import jakarta.jms.JMSException;
@@ -9,7 +10,7 @@ import jakarta.jms.Message;
 import jakarta.jms.MessageListener;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
+import java.util.Set;
 
 import static com.pet.management.utils.JsonUtil.readValue;
 
@@ -24,10 +25,10 @@ public class VaccineMessageListener implements MessageListener {
         try {
             if (message.getJMSType().equals("vaccine.pending")) {
                 final var payload = message.getObjectProperty("payload");
-                final List<PetDetailsDTO> dtos = readValue(payload.toString(), new TypeReference<>() {
+                log.debug("Payload got with : {}", payload.toString());
+                final Set<PetDetailsDTO> dtos = readValue(payload.toString(), new TypeReference<>() {
                 });
-                dtos.forEach(petDetailsDTO -> log.debug("{} {} {}", petDetailsDTO.getName(), petDetailsDTO.getOwner()
-                        , petDetailsDTO.getPhoneNumber()));
+                dtos.forEach(petDetailsDTO -> log.debug(JsonUtil.asJsonString(petDetailsDTO)));
             }
         } catch (JMSException e) {
             throw new RuntimeException(e);

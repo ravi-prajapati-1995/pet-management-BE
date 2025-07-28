@@ -4,7 +4,7 @@ import com.pet.management.dto.PetDetailsDTO;
 import com.pet.management.dto.update.PetUpdateDto;
 import com.pet.management.model.Pet;
 import com.pet.management.repository.PetRepository;
-import jakarta.ejb.Stateless;
+import jakarta.ejb.Singleton;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.Optional;
 
-@Stateless
+@Singleton
 @Slf4j
 public class PetService {
     @Inject

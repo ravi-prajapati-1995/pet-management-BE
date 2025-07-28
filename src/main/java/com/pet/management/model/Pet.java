@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 @With
+@EqualsAndHashCode
 public class Pet {
     @Id
     @GeneratedValue
@@ -28,5 +29,12 @@ public class Pet {
     public Pet(String name, int age) {
         this.name = name;
         this.age = age;
+    }
+
+    public Pet(final String name, final int age, final Owner owner, final List<Vaccine> vaccines) {
+        this.name = name;
+        this.age = age;
+        this.owner = owner;
+        this.vaccines = vaccines;
     }
 }
