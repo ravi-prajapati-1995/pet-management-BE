@@ -1,11 +1,8 @@
-package com.pet.management.config;
+package com.pet.management.scheduler;
 
 import com.pet.management.messaging.producer.VaccineMessageProducer;
 import com.pet.management.service.PetService;
-import jakarta.ejb.Schedule;
-import jakarta.ejb.Singleton;
-import jakarta.ejb.Startup;
-import jakarta.inject.Inject;
+import jakarta.ejb.*;
 import lombok.extern.slf4j.Slf4j;
 
 import static com.pet.management.utils.JsonUtil.asJsonString;
@@ -14,18 +11,22 @@ import static com.pet.management.utils.JsonUtil.asJsonString;
 @Startup
 @Slf4j
 public class VaccineScheduler {
-
-    @Inject
+    @EJB
     private VaccineMessageProducer vaccineMessageProducer;
 
-    @Inject
+    @EJB
     private PetService petService;
 
-    @Schedule(hour = "*", minute = "*", second = "0", persistent = false)
+    @Schedule(hour = "*", minute = "*", second = "15", persistent = false)
     public void perMinuteTask() {
         final var vaccinePendingPets = petService.getVaccinePendingPets();
         final var jsonString = asJsonString(vaccinePendingPets);
         log.debug("Data about to send: {}", jsonString);
         vaccineMessageProducer.sendMessage(jsonString);
+    }
+
+    @Timeout
+    public void timeoutHandler(Timer timer) {
+        // NO handling
     }
 }

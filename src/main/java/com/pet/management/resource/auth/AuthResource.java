@@ -13,7 +13,7 @@ import jakarta.ws.rs.core.Response;
 import java.util.Map;
 
 import static com.pet.management.auth.JwtUtil.generateToken;
-import static com.pet.management.config.AppConstants.PET_APP_V1;
+import static com.pet.management.constants.AppConstants.PET_APP_V1;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 import static jakarta.ws.rs.core.Response.Status.UNAUTHORIZED;
 

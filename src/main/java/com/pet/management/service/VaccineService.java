@@ -4,17 +4,17 @@ import com.pet.management.dto.UpdateVaccineDTO;
 import com.pet.management.dto.VaccineDTO;
 import com.pet.management.model.Vaccine;
 import com.pet.management.repository.VaccineRepository;
+import jakarta.ejb.EJB;
 import jakarta.ejb.Singleton;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.NotFoundException;
 
 import java.util.List;
 
 @Singleton
 public class VaccineService {
-    @Inject
+    @EJB
     private VaccineRepository vaccineRepository;
-    @Inject
+    @EJB
     private PetService petService;
 
     public List<VaccineDTO> getByPetId(final Long petId) {

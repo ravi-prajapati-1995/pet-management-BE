@@ -4,8 +4,8 @@ import com.pet.management.dto.PetDetailsDTO;
 import com.pet.management.dto.update.PetUpdateDto;
 import com.pet.management.model.Pet;
 import com.pet.management.repository.PetRepository;
+import jakarta.ejb.EJB;
 import jakarta.ejb.Singleton;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,9 +15,9 @@ import java.util.Optional;
 @Singleton
 @Slf4j
 public class PetService {
-    @Inject
+    @EJB
     private PetRepository petRepository;
-    @Inject
+    @EJB
     private VaccineService vaccineService;
 
     public List<PetDetailsDTO> getAllPets() {

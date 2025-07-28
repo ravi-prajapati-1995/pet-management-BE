@@ -3,14 +3,14 @@ package com.pet.management.resource;
 import com.pet.management.dto.UpdateVaccineDTO;
 import com.pet.management.service.VaccineService;
 import jakarta.annotation.security.RolesAllowed;
-import jakarta.inject.Inject;
+import jakarta.ejb.EJB;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-import static com.pet.management.config.AppConstants.PET_APP_V1;
+import static com.pet.management.constants.AppConstants.PET_APP_V1;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path("/pet/{id}/vaccine")
@@ -20,7 +20,7 @@ import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 @Slf4j
 public class VaccineResource {
 
-    @Inject
+    @EJB
     private VaccineService vaccineService;
 
 
